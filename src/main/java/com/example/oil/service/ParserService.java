@@ -1,13 +1,7 @@
 package com.example.oil.service;
 
-import com.example.oil.model.Company;
-import com.example.oil.model.Data;
-import com.example.oil.model.DataType;
-import com.example.oil.model.LiquidType;
-import com.example.oil.repository.CompanyRepository;
-import com.example.oil.repository.DataRepository;
-import com.example.oil.repository.DataTypeRepository;
-import com.example.oil.repository.LiquidTypeRepository;
+import com.example.oil.model.*;
+import com.example.oil.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,27 +13,28 @@ public class ParserService {
     @Autowired
     DataRepository dataRepository;
     @Autowired
-    DataTypeRepository dataTypeRepository;
+    SourceTypeRepository sourceTypeRepository;
     @Autowired
     LiquidTypeRepository liquidTypeRepository;
+    @Autowired
+    DataTypeRepository dataTypeRepository;
     @Autowired
     CompanyRepository companyRepository;
 
     public void start() {
 
         Company company = getCompany("company");
-        DataType dataType = getDataType("forecast");
+        SourceType sourceType = getSourceTypeByName("forecast");
         LiquidType liquidType = getLiquidTypeByName("oil");
+        DataType dataType = getDataType("data1");
 
-
-        Data data = new Data(company, getRandomDate(), dataType, liquidType, 15);
+        Data data = new Data(company, getRandomDate(), sourceType, liquidType, dataType,  15);
 
         dataRepository.save(data);
     }
 
     private Company getCompany(String name) {
         Company company = companyRepository.findByName(name);
-
         if (company==null){
             Company tmp = new Company();
             tmp.setName(name);
@@ -49,10 +44,8 @@ public class ParserService {
         return company;
     }
 
-
     private DataType getDataType(String name) {
         DataType dataType = dataTypeRepository.findByName(name);
-
         if (dataType==null){
             DataType tmp = new DataType();
             tmp.setName(name);
@@ -64,7 +57,6 @@ public class ParserService {
 
     private LiquidType getLiquidTypeByName(String name) {
         LiquidType liquidType = liquidTypeRepository.findByName(name);
-
         if (liquidType==null){
             LiquidType tmp = new LiquidType();
             tmp.setName(name);
@@ -72,6 +64,17 @@ public class ParserService {
             liquidType = liquidTypeRepository.findByName(name);
         }
         return liquidType;
+    }
+
+    private SourceType getSourceTypeByName(String name) {
+        SourceType sourceType = sourceTypeRepository.findByName(name);
+        if (sourceType==null){
+            SourceType tmp = new SourceType();
+            tmp.setName(name);
+            sourceTypeRepository.save(tmp);
+            sourceType = sourceTypeRepository.findByName(name);
+        }
+        return sourceType;
     }
 
 }

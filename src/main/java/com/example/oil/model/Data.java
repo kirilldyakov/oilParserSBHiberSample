@@ -18,22 +18,38 @@ public class Data {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name="data_type_id")
-    private DataType dataType;
+    @JoinColumn(name = "source_type_id")
+    private SourceType sourceType;
 
     @ManyToOne
-    @JoinColumn(name="liquid_type_id")
+    @JoinColumn(name = "liquid_type_id")
     private LiquidType liquidType;
+
+    @ManyToOne
+    @JoinColumn(name = "data_type_id")
+    private DataType dataType;
 
     @Column(nullable = false)
     private Integer value;
 
-    public Data(Company company, Date date, DataType dataType, LiquidType liquidType, Integer value) {
+    public Data() {
+    }
+
+    public Data(Company company, Date date, SourceType sourceType, LiquidType liquidType, DataType dataType, Integer value) {
         this.company = company;
         this.date = date;
-        this.dataType = dataType;
+        this.sourceType = sourceType;
         this.liquidType = liquidType;
+        this.dataType = dataType;
         this.value = value;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Company getCompany() {
@@ -52,12 +68,12 @@ public class Data {
         this.date = date;
     }
 
-    public DataType getDataType() {
-        return dataType;
+    public SourceType getSourceType() {
+        return sourceType;
     }
 
-    public void setDataType(DataType dataType) {
-        this.dataType = dataType;
+    public void setSourceType(SourceType sourceType) {
+        this.sourceType = sourceType;
     }
 
     public LiquidType getLiquidType() {
@@ -66,6 +82,14 @@ public class Data {
 
     public void setLiquidType(LiquidType liquidType) {
         this.liquidType = liquidType;
+    }
+
+    public DataType getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(DataType dataType) {
+        this.dataType = dataType;
     }
 
     public Integer getValue() {
