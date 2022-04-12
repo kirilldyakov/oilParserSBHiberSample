@@ -3,6 +3,7 @@ package com.example.oil.model;
 import javax.persistence.*;
 
 @Entity
+@Cacheable
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"name"})})
 public class DataType {
  
