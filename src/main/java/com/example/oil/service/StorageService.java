@@ -5,10 +5,12 @@ import com.example.oil.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+
 import static com.example.oil.utils.DateUtils.getRandomDate;
 
 @Service
-public class ParserService {
+public class StorageService {
 
     @Autowired
     DataRepository dataRepository;
@@ -21,21 +23,27 @@ public class ParserService {
     @Autowired
     CompanyRepository companyRepository;
 
-    public void start() {
+    public void save(HashMap<String, String> map) {
 
-        Company company = getCompany("company");
-        SourceType sourceType = getSourceTypeByName("forecast");
-        LiquidType liquidType = getLiquidTypeByName("oil");
-        DataType dataType = getDataType("data1");
-
-        Data data = new Data(company, getRandomDate(), sourceType, liquidType, dataType,  15);
-
-        dataRepository.save(data);
+        try {
+            Data data = new Data(Integer.parseInt(
+                    map.get("ext_id")),
+                    getCompany(map.get("company")),
+                    getRandomDate(),
+                    getSourceTypeByName(map.get("source_type")),
+                    getLiquidTypeByName(map.get("liquid_type")),
+                    getDataType(map.get("data_type")),
+                    Integer.parseInt(map.get("value"))
+            );
+            dataRepository.save(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Company getCompany(String name) {
         Company company = companyRepository.findByName(name);
-        if (company==null){
+        if (company == null) {
             Company tmp = new Company();
             tmp.setName(name);
             companyRepository.save(tmp);
@@ -46,7 +54,7 @@ public class ParserService {
 
     private DataType getDataType(String name) {
         DataType dataType = dataTypeRepository.findByName(name);
-        if (dataType==null){
+        if (dataType == null) {
             DataType tmp = new DataType();
             tmp.setName(name);
             dataTypeRepository.save(tmp);
@@ -57,7 +65,7 @@ public class ParserService {
 
     private LiquidType getLiquidTypeByName(String name) {
         LiquidType liquidType = liquidTypeRepository.findByName(name);
-        if (liquidType==null){
+        if (liquidType == null) {
             LiquidType tmp = new LiquidType();
             tmp.setName(name);
             liquidTypeRepository.save(tmp);
@@ -68,7 +76,7 @@ public class ParserService {
 
     private SourceType getSourceTypeByName(String name) {
         SourceType sourceType = sourceTypeRepository.findByName(name);
-        if (sourceType==null){
+        if (sourceType == null) {
             SourceType tmp = new SourceType();
             tmp.setName(name);
             sourceTypeRepository.save(tmp);

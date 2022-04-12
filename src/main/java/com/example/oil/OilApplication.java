@@ -1,7 +1,6 @@
 package com.example.oil;
 
 import com.example.oil.service.ExcelService;
-import com.example.oil.service.ParserService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,12 +12,10 @@ public class OilApplication {
 		ConfigurableApplicationContext context = SpringApplication.run(OilApplication.class, args);
 
 		try {
-			context.getBean(ParserService.class).start();
-			//context.getBean(ExcelService.class).start(null);
+			context.getBean(ExcelService.class).start(null);
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-
 	}
 
 }
