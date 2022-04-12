@@ -10,6 +10,8 @@ public class Data {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    private Integer extId;
+
     @ManyToOne
     @JoinColumn(name="company_id")
     private Company company;
@@ -35,7 +37,8 @@ public class Data {
     public Data() {
     }
 
-    public Data(Company company, Date date, SourceType sourceType, LiquidType liquidType, DataType dataType, Integer value) {
+    public Data(Integer extId, Company company, Date date, SourceType sourceType, LiquidType liquidType, DataType dataType, Integer value) {
+        this.extId = extId;
         this.company = company;
         this.date = date;
         this.sourceType = sourceType;
@@ -50,6 +53,14 @@ public class Data {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getExtId() {
+        return extId;
+    }
+
+    public void setExtId(Integer extId) {
+        this.extId = extId;
     }
 
     public Company getCompany() {

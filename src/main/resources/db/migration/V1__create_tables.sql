@@ -30,6 +30,7 @@ CREATE TABLE "data" (
 	"source_type_id"	integer,
 	"liquid_type_id"	integer,
 	"data_type_id"	integer,
+	"ext_id"	integer,
 	PRIMARY KEY("id"),
 	FOREIGN KEY("company_id") REFERENCES company(id),
 	FOREIGN KEY("source_type_id") REFERENCES data_type(id),
