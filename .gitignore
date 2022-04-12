@@ -31,3 +31,8 @@ hs_err_pid*
 #database
 db_oil.db
 
+.classpath
+.project
+.settings/
+target/
+
