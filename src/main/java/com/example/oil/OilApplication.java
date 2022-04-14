@@ -14,12 +14,6 @@ public class OilApplication {
 		ConfigurableApplicationContext context = SpringApplication.run(OilApplication.class, args);
 
 		try {
-			context.getBean(CalendarService.class).start();
-		}catch (Exception e){
-			e.printStackTrace();
-		}
-
-		try {
 			context.getBean(ExcelService.class).start(null);
 		}catch (Exception e){
 			e.printStackTrace();

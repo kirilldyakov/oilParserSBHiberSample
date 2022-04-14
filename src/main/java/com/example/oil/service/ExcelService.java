@@ -34,10 +34,10 @@ public class ExcelService {
             Sheet sheet = openXlsFile(filename);
 
             HashMap<Integer, HashMap<Integer, String>> header = new HashMap<>();
-            for (int r = 0; r < sheet.getLastRowNum(); r++) {
+            for (int r = 0; r < sheet.getLastRowNum()+1; r++) {
                 HashMap<Integer, String> permanentColumns = new HashMap<>();
                 Date date = DateUtils.getRandomDate();
-                for (int c = 0; c < sheet.getRow(r).getLastCellNum(); c++) {
+                for (int c = 0; c < sheet.getRow(r).getLastCellNum()-1; c++) {
                     if (r < 3) {
                         readHeader(sheet, header, r, c);
                     } else {
