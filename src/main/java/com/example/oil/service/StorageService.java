@@ -2,12 +2,13 @@ package com.example.oil.service;
 
 import com.example.oil.model.*;
 import com.example.oil.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
-
-import static com.example.oil.utils.DateUtils.getRandomDate;
 
 @Service
 public class StorageService {
@@ -23,19 +24,21 @@ public class StorageService {
     @Autowired
     CompanyRepository companyRepository;
 
-    public void save(HashMap<String, String> map) {
+    Logger logger = LoggerFactory.getLogger(StorageService.class);
 
+    public void save(HashMap<String, String> map) {
         try {
-            Data data = new Data(Integer.parseInt(
-                    map.get("ext_id")),
+            Data data = new Data(
+                    Integer.parseInt(map.get("ext_id")),
                     getCompany(map.get("company")),
-                    getRandomDate(),
+                    new Date(Long.parseLong(map.get("date"))),
                     getSourceTypeByName(map.get("source_type")),
                     getLiquidTypeByName(map.get("liquid_type")),
                     getDataType(map.get("data_type")),
                     Integer.parseInt(map.get("value"))
             );
             dataRepository.save(data);
+            logger.info("Data saved: " + data);
         } catch (Exception e) {
             e.printStackTrace();
         }
